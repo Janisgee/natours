@@ -16,7 +16,7 @@ const userRouter = require('./routes/userRoutes'); // import router
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 
-//Start express
+//Start express application
 const app = express();
 
 //Setting up plug engines
@@ -109,7 +109,7 @@ app.use((req, res, next) => {
   // console.log(x);
 
   // console.log(req.headers);
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
 

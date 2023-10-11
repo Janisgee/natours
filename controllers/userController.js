@@ -55,8 +55,8 @@ exports.uploadUserPhoto = upload.single('photo');
 //2) ROUTE HANDLERS
 //User itself to update its information
 exports.updateMe = catchAsync(async (req, res, next) => {
-  console.log(req.file);
-  console.log(req.body);
+  // console.log(req.file);
+  // console.log(req.body);
   //1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -97,7 +97,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 });
 
 exports.getMe = (req, res, next) => {
-  console.log(req.user);
+  // console.log(req.user);
   req.params.id = req.user._id;
   next();
 };

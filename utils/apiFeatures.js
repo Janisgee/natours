@@ -16,14 +16,14 @@ class APIFeatures {
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    console.log(JSON.parse(queryStr));
+    // console.log(JSON.parse(queryStr));
     this.query = this.query.find(JSON.parse(queryStr));
     // let query = Tour.find(JSON.parse(queryStr));
     return this; //entire object
   }
   sort() {
     if (this.queryString.sort) {
-      console.log(this.queryString.sort); //[ 'duration', 'price' ]
+      // console.log(this.queryString.sort); //[ 'duration', 'price' ]
       const sortBy = this.queryString.sort.split(',').join(' ');
       this.query = this.query.sort(sortBy); //req.
     } else {

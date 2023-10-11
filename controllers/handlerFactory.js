@@ -40,8 +40,8 @@ exports.updateOne = (Model) =>
 
 exports.createOne = (Model) =>
   catchAsync(async (req, res, next) => {
-    console.log(req.body);
-    console.log(typeof req.body.tour, typeof req.body.user, Model);
+    // console.log(req.body);
+    // console.log(typeof req.body.tour, typeof req.body.user, Model);
 
     const doc = await Model.create(req.body); //(.create method return a Promise)
 
@@ -76,7 +76,7 @@ exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
     //To allow got nested GET reviews on tour
     let filter = {};
-    console.log('params', req.params);
+    // console.log('params', req.params);
     if (req.params.tourId) filter = { tour: req.params.tourId };
 
     const features = new APIFeatures(Model.find(filter), req.query)

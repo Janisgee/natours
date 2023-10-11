@@ -172,15 +172,15 @@ tourSchema.pre(/^find/, function (next) {
 
 //Post-query middleware for 'find'
 //we actually get access to all the documents that we returned from the query. 'doc'
-tourSchema.post(/^find/, function (docs, next) {
-  //this middleware is gonna run after the query has already executed. It can have access to the documents that were returned. Because that query has actually already finished at this point.
-  console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  //try to run query and see result.
-  //POSTMAN:GET ALL TOUR=>Run
-  //Query took 65 milliseconds! //from the beginning Pre-'/^find/', where we defined this,to after the query has executed, at this point in time.
-  // console.log(docs); //All tours result without secretTour
-  next();
-});
+// tourSchema.post(/^find/, function (docs, next) {
+//   //this middleware is gonna run after the query has already executed. It can have access to the documents that were returned. Because that query has actually already finished at this point.
+//   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+//   //try to run query and see result.
+//   //POSTMAN:GET ALL TOUR=>Run
+//   //Query took 65 milliseconds! //from the beginning Pre-'/^find/', where we defined this,to after the query has executed, at this point in time.
+//   // console.log(docs); //All tours result without secretTour
+//   next();
+// });
 
 // AGGREGATION MIDDLEWARE
 //tourSchema.pre so we want this to happen before the aggregation is actually executed, we use aggregation hook 'aggregate'.

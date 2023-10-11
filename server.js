@@ -54,9 +54,8 @@ const server = app.listen(port, () => {
 // Globally handle unhandled rejected promises
 //Each time that there is an unhandled rejection somewhere in our application, the process object will emit an object called unhandled rejection.We can subscrible that event like this. process.on()
 process.on('unhandledRejection', (err) => {
-  console.log('111 UNHANDLER REJECTION!💥 Shutting down');
-  console.log('222');
-  console.log('333', err);
+  console.log('UNHANDLER REJECTION!💥 Shutting down');
+  console.log(err);
   //Abrupt way of ending the program because this will just immediately abort all the requests that are currently still running or pending. if just process.exit() without .close()
 
   server.close(() => {

@@ -27,7 +27,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
   if (!tour) {
     return next(new AppError('There is no tour with this name.', 404));
   }
-  console.log('😳😳', tour);
+
   //2) Build template
 
   //3) Render the data from 1
@@ -64,7 +64,7 @@ exports.updateUserData = catchAsync(async (req, res, next) => {
       runValidators: true,
     },
   );
-  console.log(updatedUser);
+
   res.status(200).render('account', {
     title: 'Your account',
     user: updatedUser,
@@ -78,7 +78,6 @@ exports.getMyBookings = async (req, res, next) => {
 
   const tours = await Tour.find({ _id: { $in: tourIDs } });
 
-  console.log('books:', bookings);
   res.status(200).render('overview', {
     title: 'My bookings',
     tours,
