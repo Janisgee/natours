@@ -16,6 +16,7 @@ const userRouter = require('./routes/userRoutes'); // import router
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 
+//Start express
 const app = express();
 
 //Setting up plug engines
