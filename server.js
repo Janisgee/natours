@@ -63,3 +63,13 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
   });
 });
+
+// We do not use process.exit(), because the SIGTERM itself will cause the application to shut down.
+//server.close() =>this will basically close the server, but before that still handle all of the pending requests. 
+
+process.on('SIGTERM',()=>{
+  console.log('👋SIGTERM RECEIVED. Shutting down gracefully.');
+  server.close(()=>{
+    console.log('💥Process terminated!')
+  })
+})
