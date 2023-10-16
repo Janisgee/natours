@@ -24,7 +24,7 @@ const signToken = (id) => {
 // 4)Last send it to client
 
 // A function to log user in and sent JWT
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req,res) => {
   // Create a function for create toke
   const token = signToken(user._id);
 
@@ -33,16 +33,14 @@ const createSendToken = (user, statusCode, res) => {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
-    // secure: true, //the cookie will only be sent on an encrypted connection HTTPS. It will not work for development environment as we are not using https  but http.
-    httpOnly: true, // The cookie cannot be accessed or modified in any way by the browser
-  }; //brower or client will delete the cookie after it has expired, in order to prevent those cross-site scripting attacks. SO setting httpOnly to true is to basically receive the cookie, store it, and then send it automatically along with every request.
+    httpOnly: true,
+    secure:  res.secure || req.headers['x-forwarded-proto']==='https',
+  }; 
+  // secure: true, //the cookie will only be sent on an encrypted connection HTTPS. It will not work for development environment as we are not using https  but http.
 
-  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
-
-  //Remove the password from the output.(in schema, select:false, so it doesnt show when we query for all the users. But this case, it come from creating a new document amd we see it here.)
   user.password = undefined;
 
-  // Send a cookie res.cookie(name of cookie, the data we want to send in cookie, cptions for the cookie) Send and defind the cookies
+ 
   res.cookie('jwt', token, cookieOptions);
 
   //status for created
@@ -71,7 +69,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   await new Email(newUser, url).sendWelcome();
   // console.log(url);
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201,req, res);
 });
 
 //2  implement the route so signup handler can call
@@ -99,7 +97,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Incorrect email or password', 401));
 
   // 3) If everything ok, send token to client
-  createSendToken(user, 200, res);
+  createSendToken(user, 200,req, res);
 
   // 4) Create a user route for login
 });
@@ -282,7 +280,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   //3) Update changedPasswordAt property for the user (userModel)
   //4) Log the user in, send JWT to client
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200,req, res);
 });
 
 // Allowed the logged-in user to simply update his password without having to forget it.
@@ -304,7 +302,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // User.findByIdAndUpdate?? Why we didnt do it as validator(this.password) is not going to work inside the schema passwordConfirm validator and two pre'save' middleware are not going to work.
 
   //4) Log user in, send JWT
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req,res);
 
   //final - implement a route in userRoutes
   //patch('/updateMyPassword')
