@@ -9,8 +9,8 @@
     "start:prod": "set NODE_ENV=production&&nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "ndb server.js",
-    "watch:js": "parcel watch: ./public/js/index.js --public-url --out-dir ./public/js --out-file bundle.js",
-    "build": "parcel build: ./public/js/index.js --public-url --out-dir ./public/js --out-file bundle.js"
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
+    "build": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
   "author": "Janis Chan",
   "license": "ISC",
