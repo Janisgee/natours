@@ -7,6 +7,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -15,6 +16,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes'); // import router
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const webhookCheckout = require('./controllers/bookingController')
 
 //Start express application
 const app = express();
@@ -73,6 +75,10 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter); //we only want to apply this limiter only to /api. Only access to API route.
 //If too many requests, block these requests
+
+// Middleware to pass the session checkout in secure way.
+app.post('/webhook-checkout', express.raw({type:'application/json'}),bookingController.webhookCheckout);
+//The reason for that is that in this handler function, when we receive the body from Stripe, the Stripe function that we're then gonna use to actually read the body needs this body in a raw form, so basically as a string and not as JSON. Again, in this route here, we need the body coming with the request to be not in JSON.
 
 // ------------BODY PARSER, READING DATA FROM BODY INTO RQ.BODY------------
 //Limit the amount of data that comes in body.
