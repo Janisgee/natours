@@ -27,6 +27,27 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLEWARES
+//Implement CORS for simple request [Get, Post]
+app.use(cors());
+// Access-Control-Allow-Origin *
+
+// api.natours.com, front-end natours.com (allow for specific origin)
+// app.use(cors({
+//   orgin:'https://www.natours.com'
+// }))
+
+//Implement CORS for simple request [Put, Patch, Delete]
+// Require - preflight phase. Before the real request actually happens, and let's say a delete request, the browser first does an options request in order to figure out if the actual request is safe to send. 
+// We need to actually respond to that options request. And options is really just another HTTP method, so just like get, post or delete, So basically when we get one of these options requests on our server, we then need to send back the same Access-Control-Allow-Origin header. And this way the browser will then know that the actual request, and in this case the delete request, is safe to perform, and then executes the delete request itself.
+// similar as app.get()
+app.options('*',cors()); //Just another HTTP method, for all route
+// app.options('/api/v1/tours/:id',cors()); //For specific route
+
+
+
+
+
+
 // Use the build-in express middleware.(express.static(directory))
 app.use(express.static(`${__dirname}/public`)); //pass the directory where we have these HTML file
 //------------SET SECURITY HTTP HEADERS------------
